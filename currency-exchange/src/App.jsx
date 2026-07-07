@@ -24,7 +24,7 @@ function App() {
 
   return (
     <div
-      className="w-full h-screen flex justify-center items-center bg-gradient-to-br from-blue-50 via-white to-blue-200 bg-cover bg-no-repeat"
+      className="w-full h-screen flex justify-center items-center bg-linear-to-br from-blue-50 via-white to-blue-200 bg-cover bg-no-repeat"
     >
       <div className="w-full px-4">
         
