@@ -1,24 +1,25 @@
-import { useState } from "react";
+import { use, useState } from "react";
 
 function App() {
   const [newtodo, setNewTodo] = useState("");
   const [list, setList] = useState([]);
-
+  const [error, setError] = useState("");
+  const [editing,isediting] = useState("")
   const AddTodo = () => {
-    if (newtodo.trim() === ""){
-      alert("write something")
-      return
+    if (newtodo.trim() === "") {
+      setError("please enter a task");
+      return;
+    } else {
+      const todoObject = {
+        id: list.length + 1,
+        task: newtodo,
+        status: false,
+      };
+      setList([...list, todoObject]);
+      setError("")
+      setNewTodo("");
     }
-    else {
-    const todoObject = {
-      id: list.length + 1,
-      task: newtodo,
-      status: false,
-    };
-    setList([...list, todoObject]);
-    setNewTodo("");
   };
-  }
 
   const todostatus = (id) => {
     const updatedList = list.map((todoObject) => {
@@ -33,6 +34,20 @@ function App() {
     });
     setList(updatedList);
   };
+
+
+  const deletetodo = (id)=>{
+     const updatedList = list.filter((todoObject)=>{
+        if(todoObject.id === id){
+           return todoObject.id !== id ;
+        }
+     })
+     setList(updatedList);
+  }
+
+  const edtitodo = (id) =>{
+
+  }
   return (
     <>
       <div>
@@ -47,6 +62,7 @@ function App() {
           }}
         />
         <button onClick={AddTodo}>Add</button>
+        {error && <p>{error}</p>}
       </div>
       <div>
         {list.map((todoObject) => {
@@ -58,6 +74,8 @@ function App() {
                 onChange={() => todostatus(todoObject.id)}
               />
               {todoObject.task}
+              <button onClick={edtitodo}>update</button>
+              <button onClick={deletetodo}>delete</button>
             </li>
           );
         })}
