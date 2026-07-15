@@ -4,7 +4,9 @@ function App() {
   const [newtodo, setNewTodo] = useState("");
   const [list, setList] = useState([]);
   const [error, setError] = useState("");
-  const [editing,isediting] = useState("")
+  const [editingid, setEditingid] = useState("");
+  const [edittext, setEdittext] = useState(null);
+
   const AddTodo = () => {
     if (newtodo.trim() === "") {
       setError("please enter a task");
@@ -16,7 +18,7 @@ function App() {
         status: false,
       };
       setList([...list, todoObject]);
-      setError("")
+      setError("");
       setNewTodo("");
     }
   };
@@ -35,19 +37,42 @@ function App() {
     setList(updatedList);
   };
 
+  const deletetodo = (id) => {
+    const updatedList = list.filter((todoObject) => {
+      if (todoObject.id === id) {
+        return todoObject.id !== id;
+      }
+    });
+    setList(updatedList);
+  };
 
-  const deletetodo = (id)=>{
-     const updatedList = list.filter((todoObject)=>{
-        if(todoObject.id === id){
-           return todoObject.id !== id ;
-        }
-     })
-     setList(updatedList);
-  }
+  const edtitodo = (id) => {
+    setEditingid(id);
+    const editing = list.find((todoObject) => {
+      return todoObject.id === id;
+    });
+    setEdittext(editing.task);
+  };
 
-  const edtitodo = (id) =>{
+  const savedtodo = () => {
+    const updatedList = list.map((todoObject) => {
+      if (todoObject.id === editingid) {
+        return {
+          ...todoObject,
+          task: edittext,
+        };
+      }
+      return todoObject;
+    });
 
-  }
+    setList(updatedList);
+    setEditingid(null);
+    setEdittext("");
+  };
+  const cancelEdit = () => {
+  setEditingid(null);
+  setEdittext("");
+};
   return (
     <>
       <div>
@@ -73,9 +98,26 @@ function App() {
                 checked={todoObject.status}
                 onChange={() => todostatus(todoObject.id)}
               />
-              {todoObject.task}
-              <button onClick={edtitodo}>update</button>
-              <button onClick={deletetodo}>delete</button>
+              {editingid === todoObject.id ? (
+                <>
+                  <input
+                    type="text"  value={edittext}
+                    onChange={(e) => setEdittext(e.target.value)}
+                  />
+                  <button onClick={savedtodo}>Save</button>
+                  <button onClick={cancelEdit}>Cancel</button>
+                </>
+              ) : (
+                <>
+                  {todoObject.task}
+                  <button onClick={() => edtitodo(todoObject.id)}>
+                    update
+                  </button>
+                  <button onClick={() => deletetodo(todoObject.id)}>
+                    delete
+                  </button>
+                </>
+              )}
             </li>
           );
         })}
