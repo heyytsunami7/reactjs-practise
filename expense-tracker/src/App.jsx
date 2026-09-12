@@ -27,7 +27,7 @@ function App() {
   }, [transactions]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-indigo-50/40 to-slate-100/60 py-10 px-4 text-slate-900 antialiased">
+    <div className="min-h-screen bg-linear-to-b from-indigo-50/40 to-slate-100/60 py-10 px-4 text-slate-900 antialiased">
       <div className="max-w-2xl mx-auto space-y-5">
         <TransactionProvider value={{ transactions, addTransaction, deleteTransaction }}>
           {/* Header */}
