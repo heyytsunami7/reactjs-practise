@@ -6,13 +6,11 @@ export const STATUS = Object.freeze({
     ERROR: 'error',
 })
 
-
-
  const productSlice = createSlice({
     name: 'product',
     initialState: {
         data: [],
-        
+        status: STATUS.IDLE
     },
     reducers:{
         setProducts(state, action){
@@ -31,7 +29,7 @@ export function fetchProducts(){
     return async function fetchProductsThunk(dispatch, getState){
       dispatch(setStatus(STATUS.LOADING));
       try{
-        const res  = await fetch(fetch('https://fakestoreapi.com/products'))
+        const res  = await fetch('https://fakestoreapi.com/products')
         const data = await res.json()
         dispatch(setProducts(data))
         dispatch(setStatus(STATUS.IDLE))

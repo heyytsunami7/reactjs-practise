@@ -1,15 +1,15 @@
 import React from 'react'
+import { useDispatch } from "react-redux"
+import { addtoCart } from "../features/cartSlice"
 
-function ProductCard() {
-    const product = [{title: "hello" , price: "55",},] 
+function ProductCard({ product }) {
+  const dispatch = useDispatch();
   return (
     <>
-    <div className='border border-black-600'>
-    <img src={product.title} alt={product.title} />
-    <p>{product[0].title}</p>
-    <p>{product[0].price}</p>
-    <button className='bg-blue-500 text-white font-bold py-2 px-4'>Add to Cart</button>
-    </div>
+    <img src={product.image} alt={product.title} />
+    <p>{product.title}</p>
+    <p>₹{product.price}</p>
+    <button onClick={()=>dispatch(addtoCart(product))}>Add to cart</button>
     </>
   )
 }
